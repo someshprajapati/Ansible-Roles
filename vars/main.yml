@@ -1,0 +1,7 @@
+---
+title: "My Website"
+server_admin: "admin@linuxtechiebulb.com"
+document_root: "/var/www/html/myweb"
+error_log: "/var/log/myweb.log"
+
+

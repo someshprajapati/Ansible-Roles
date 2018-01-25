@@ -1,0 +1,17 @@
+<VirtualHost *>
+	ServerAdmin {{ server_admin }}
+	DocumentRoot {{ document_root }}
+	ErrorLog {{ error_log }}
+
+	DirectoryIndex index.php index.html
+	
+	ErrorDocument 403 /index.html
+	ErrorDocument 404 /index.html
+
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+</VirtualHost>
+
+

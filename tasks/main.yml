@@ -1,0 +1,31 @@
+---
+- name: Install Apache
+  yum: pkg=httpd state=installed
+  register: apacheinstalled
+  notify:
+        - Start Apache
+        
+- name: Disable Default Site
+  when: apacheinstalled|success
+  file: dest=/etc/httpd/conf.d/welcome.conf state=absent
+        
+- name: Vhost Config
+  when: apacheinstalled|success
+  register: vhostconfig
+  template: src=vhost.j2 dest=/etc/httpd/conf.d/{{ title }}.conf owner=root group=root
+        
+- name: Create Web Root
+  when: vhostconfig|success
+  register: webrootcreated
+  file: dest={{ document_root }} mode=775 state=directory owner=apache group=apache
+        
+- name: Copy Index
+  when: webrootcreated|success
+  copy: src=index.html dest={{ document_root }} mode=755 owner=apache group=apache
+  
+- name: WebRoot Permissions
+  when: webrootcreated|success
+  file: dest={{ document_root }} mode=755 state=directory owner=apache group=apache recurse=yes
+  notify:
+        - Reload Apache
+

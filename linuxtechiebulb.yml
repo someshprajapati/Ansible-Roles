@@ -1,0 +1,9 @@
+---
+- hosts: 192.168.20.24
+  become: yes
+  become_user: root
+  become_method: su
+  roles: 
+    - linuxtechiebulb
+
+
